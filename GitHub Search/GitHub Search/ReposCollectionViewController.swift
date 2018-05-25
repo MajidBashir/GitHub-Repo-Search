@@ -10,20 +10,41 @@ import UIKit
 import Foundation
 
 class ReposCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-    let items: [Int] = Array()
     
+    var searchText = String()
+    var searchResults :[GitReposModel] =  Array()
+    var repoViewModel: GitReposModel!
+    
+    @IBOutlet weak var reposCollectionView: UICollectionView!
+   
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.title = "Repositories Found"
+
+        GitHubAPI.searchRepositories(name: searchText) { (success, responseArray, error) in
+            DispatchQueue.main.async {
+                if((responseArray) != nil){
+                    self.searchResults = (responseArray)!
+                    self.reposCollectionView.reloadData()
+                } else{
+                    self.title = "No Repositories"
+                }
+            }
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-       return 10
+       return searchResults.count
     }
     
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath)
+        
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! RepoCollectionCell
+        
+        let item : GitReposModel = searchResults[indexPath.row]
+            cell.populateDatafromModel(modelObject: item)
+        
         return cell
     }
     

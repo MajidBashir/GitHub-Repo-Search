@@ -20,17 +20,18 @@ class SearchViewController: UIViewController {
     }
     
     @IBAction func searchAction(_ sender: UIButton) {
-        
+        self.view.endEditing(true)
+        // navigate to search Results view controller
+        performSegue(withIdentifier: "showResultsSegue", sender: self)
+
     }
     
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        // passing searchkey to next view controller
+        let vc = segue.destination as! ReposCollectionViewController
+        vc.searchText =  searchTextField.text!
     }
-    */
 
 }

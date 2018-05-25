@@ -14,8 +14,12 @@ class RepoCollectionCell: UICollectionViewCell {
     @IBOutlet weak var repoOwnerNameLabel: UILabel!
     @IBOutlet weak var repoEstimatedSize: UILabel!
  
-    func displayContentWithValues() {
+    func populateDatafromModel(modelObject :GitReposModel) {
+        repoNameLabel?.text = modelObject.full_name
+        repoOwnerNameLabel?.text = modelObject.owner.login
+        repoEstimatedSize.text = String(modelObject.forks_count)
         
+        //        DispatchQueue.global(qos: .background).async {
+        //     }
     }
-    
 }
