@@ -8,32 +8,70 @@
 
 import UIKit
 import Foundation
+import CoreData
 
 class ReposCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    
+    lazy var fetchedhResultController: NSFetchedResultsController<NSFetchRequestResult> = {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: Repo.self))
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "size", ascending: true)]
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: CoreDataStack.sharedInstance.persistentContainer.viewContext,
+                                             sectionNameKeyPath: nil,
+                                             cacheName: nil)
+        frc.delegate = self
+        return frc
+    }()
+    
     
     var searchText = String()
     var searchResults :[GitReposModel] =  Array()
     var repoViewModel: GitReposModel!
+    var currentPage = Int()
+    var isOnline = true
+    
+    let manager = CoredataManager()
     
     @IBOutlet weak var reposCollectionView: UICollectionView!
    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.title = "Repositories Found"
-
-        GitHubAPI.searchRepositories(name: searchText) { (success, responseArray, error) in
+    fileprivate func makeRequestForSearchReposWith() {
+        GitHubAPI.searchRepositories(name: searchText, currentPage: currentPage) { (success, responseArray, error) in
             DispatchQueue.main.async {
-                if((responseArray) != nil){
-                    self.searchResults = (responseArray)!
+                if((responseArray) != nil) {
+                    self.manager.saveInCoreDataWith(array: responseArray!)
+                    self.searchResults = responseArray!
                     self.reposCollectionView.reloadData()
-                } else{
-                    self.title = "No Repositories"
+                } else {
+                    print("No Items found")
                 }
             }
         }
     }
+    
+    @IBAction func modeChange(_ sender: UIButton) {
+        isOnline = !isOnline
+        let title = isOnline ? "Online" : "Offline"
+        sender.setTitle(title, for: .normal)
+        do {
+            try self.fetchedhResultController.performFetch()
+            print("COUNT FETCHED FIRST: \(self.fetchedhResultController.sections?[0].numberOfObjects)")
+        } catch let error  {
+            print("ERROR: \(error)")
+        }
+        reposCollectionView.reloadData()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "Repositories Found"
+
+        self.makeRequestForSearchReposWith()
+    }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+
+       currentPage = searchResults.count/10
        return searchResults.count
     }
     
@@ -42,12 +80,18 @@ class ReposCollectionViewController: UIViewController, UICollectionViewDelegate,
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! RepoCollectionCell
         
-        let item : GitReposModel = searchResults[indexPath.row]
+        var item: GitReposModel
+        if isOnline {
+            item = searchResults[indexPath.row]
             cell.populateDatafromModel(modelObject: item)
+        } else {
+            if let repo = fetchedhResultController.object(at: indexPath) as? Repo {
+                cell.populateDatafromModel(modelObject: GitReposModel(repo: repo))
+            }
+        }
         
         return cell
     }
-    
 }
 
 extension ReposCollectionViewController {
@@ -63,4 +107,17 @@ extension ReposCollectionViewController {
     
 }
 
+extension ReposCollectionViewController: NSFetchedResultsControllerDelegate {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    
+    }
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        
+    }
+}
 

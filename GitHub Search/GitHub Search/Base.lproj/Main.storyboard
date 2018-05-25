@@ -165,7 +165,21 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="F6J-wI-gsL"/>
+                    <navigationItem key="navigationItem" id="F6J-wI-gsL">
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="GyQ-vh-OuK">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="NV6-Ig-6Tc">
+                                <rect key="frame" x="276" y="7" width="83" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Offline"/>
+                                <connections>
+                                    <action selector="modeChange:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1b6-2g-ifA"/>
+                                </connections>
+                            </button>
+                            <connections>
+                                <segue destination="zdi-Un-OYk" kind="show" id="wTm-xb-ED4"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="reposCollectionView" destination="TAt-7E-B7G" id="FSt-fJ-MBN"/>
                     </connections>
@@ -173,6 +187,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="912.79999999999995" y="90.404797601199405"/>
+        </scene>
+        <!--Table View Controller-->
+        <scene sceneID="T9d-5u-Z8M">
+            <objects>
+                <tableViewController id="zdi-Un-OYk" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="eIh-uF-VYe">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="kOt-sV-GJR">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kOt-sV-GJR" id="fE7-dX-umz">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="zdi-Un-OYk" id="WLL-we-gaz"/>
+                            <outlet property="delegate" destination="zdi-Un-OYk" id="SAk-KX-Xte"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fEh-O3-1fs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1594" y="30"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="y5D-SJ-3Fm">
