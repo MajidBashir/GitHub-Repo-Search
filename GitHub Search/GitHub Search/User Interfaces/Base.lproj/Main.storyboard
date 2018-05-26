@@ -87,39 +87,39 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="apV-MI-jyT">
-                                    <size key="itemSize" width="345" height="128"/>
+                                    <size key="itemSize" width="320" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="10" minY="0.0" maxX="10" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionViewCell" id="NNq-qm-7eN" customClass="RepoCollectionCell" customModule="GitHub_Search" customModuleProvider="target">
-                                        <rect key="frame" x="15" y="0.0" width="345" height="128"/>
+                                        <rect key="frame" x="27.5" y="0.0" width="320" height="128"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="345" height="128"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="128"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9wS-Bs-yQ1">
-                                                    <rect key="frame" x="6" y="7" width="329" height="18"/>
+                                                    <rect key="frame" x="6" y="7" width="304" height="18"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Owner" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GJe-tJ-gNT">
-                                                    <rect key="frame" x="6" y="36.5" width="329" height="17.5"/>
+                                                    <rect key="frame" x="6" y="36.5" width="304" height="17.5"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Repository Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OMO-4I-4EB">
-                                                    <rect key="frame" x="6" y="63" width="329" height="17.5"/>
+                                                    <rect key="frame" x="6" y="63" width="304" height="17.5"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Estimated Download time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E2t-cU-qXH">
-                                                    <rect key="frame" x="6" y="93" width="329" height="17.5"/>
+                                                    <rect key="frame" x="6" y="93" width="304" height="17.5"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -142,7 +142,6 @@
                                             <constraint firstAttribute="trailing" secondItem="9wS-Bs-yQ1" secondAttribute="trailing" constant="10" id="f0Z-Ud-JoI"/>
                                             <constraint firstItem="GJe-tJ-gNT" firstAttribute="top" secondItem="9wS-Bs-yQ1" secondAttribute="bottom" constant="11.5" id="uyp-Ya-tvI"/>
                                         </constraints>
-                                        <size key="customSize" width="345" height="128"/>
                                         <connections>
                                             <outlet property="repoEstimatedSize" destination="OMO-4I-4EB" id="WoI-WX-pns"/>
                                             <outlet property="repoNameLabel" destination="9wS-Bs-yQ1" id="qnb-cg-n1G"/>

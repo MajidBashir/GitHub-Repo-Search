@@ -18,6 +18,7 @@ struct GitHubAPI {
         searchReposURL.append(name)
         searchReposURL.append("&page=\(currentPage)")
         searchReposURL.append("&per_page=10")
+        searchReposURL = searchReposURL.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
         
         let url = NSURL(string: searchReposURL)
         let session = URLSession.shared
