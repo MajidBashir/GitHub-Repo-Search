@@ -11,9 +11,8 @@ import Foundation
 import CoreData
 
 class ReposCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-    @IBOutlet weak var modeButton: UIBarButtonItem!
     
-    // NSFetch Result Controller will work here
+   // MARK: -  NSFetch Result Controller will work here
     
     lazy var fetchedhResultController: NSFetchedResultsController<NSFetchRequestResult> = {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: Repo.self))
@@ -26,7 +25,8 @@ class ReposCollectionViewController: UIViewController, UICollectionViewDelegate,
         return frc
     }()
     
-    
+    // MARK: - Properties
+
     var searchText = String()
     var searchResults :[GitReposModel] =  Array()
     var repoViewModel: GitReposModel!
@@ -34,6 +34,7 @@ class ReposCollectionViewController: UIViewController, UICollectionViewDelegate,
     var totalRecords = 0
     var isOnline = true
     var isFetching  = false
+    var modeButton = UIButton()
     
     let manager = CoredataManager()
     
@@ -43,9 +44,20 @@ class ReposCollectionViewController: UIViewController, UICollectionViewDelegate,
         super.viewDidLoad()
         self.title = "Repositories Found"
         self.makeRequestForSearchReposWith()
+        
+        modeButton = UIButton(type: .system)
+        modeButton.setTitle("Online", for: .normal)
+        modeButton.titleLabel?.textColor = .blue
+        modeButton.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
+        modeButton.addTarget(self, action: #selector(self.modeChange(_:)), for: .touchUpInside)
+        let item2 = UIBarButtonItem(customView: modeButton)
+        
+        self.navigationItem.setRightBarButtonItems([item2], animated: true)
+        
     }
     
-    
+    // MARK: - Functions
+
     fileprivate func makeRequestForSearchReposWith() {
         self.isFetching = true
         GitHubAPI.searchRepositories(name: searchText, currentPage: currentPage) { [weak self] (success, completeModel, error) in
@@ -58,8 +70,7 @@ class ReposCollectionViewController: UIViewController, UICollectionViewDelegate,
                     self?.currentPage = (self?.searchResults.count)! / 10
                     self?.reposCollectionView.reloadData()
                 } else {
-                    
-                    print("No Items found")
+                    self?.showAlertWith(title: "No Results", message: "Please check offline mode to get previously stored results.")
                 }
             }
         }
@@ -68,7 +79,8 @@ class ReposCollectionViewController: UIViewController, UICollectionViewDelegate,
     @IBAction func modeChange(_ sender: UIBarButtonItem) {
         isOnline = !isOnline
         let title = isOnline ? "Online" : "Offline"
-        modeButton.title = title
+        modeButton.setTitle(title, for: .normal)
+        
         do {
             try self.fetchedhResultController.performFetch()
             
@@ -94,7 +106,6 @@ class ReposCollectionViewController: UIViewController, UICollectionViewDelegate,
         }
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! RepoCollectionCell
@@ -112,7 +123,7 @@ class ReposCollectionViewController: UIViewController, UICollectionViewDelegate,
         return cell
     }
     
-    // MARK: - UICollectionViewDataSource
+    // MARK: - UICollectionViewDelegate
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath){
         if indexPath.item >= searchResults.count - 10 && searchResults.count != totalRecords  {

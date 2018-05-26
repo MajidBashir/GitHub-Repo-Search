@@ -18,5 +18,6 @@ class RepoCollectionCell: UICollectionViewCell {
         repoNameLabel?.text = modelObject.name
         repoOwnerNameLabel?.text = modelObject.owner.login
         repoEstimatedSize.text = "\(modelObject.size) Kb"
+        self.backgroundColor =  modelObject.has_wiki ?  UIColor.init(red: 200.0/255.0, green: 200.0/255.0, blue: 200.0/255.0, alpha: 1.0)  : UIColor.init(red: 230.0/255.0, green: 230.0/255.0, blue: 230.0/255.0, alpha: 1.0)
     }
 }

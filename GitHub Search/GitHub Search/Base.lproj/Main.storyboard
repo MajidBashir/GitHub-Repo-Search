@@ -167,23 +167,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="F6J-wI-gsL">
                         <barButtonItem key="backBarButtonItem" title="Home" id="WMt-Il-Su3"/>
-                        <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="GyQ-vh-OuK">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="NV6-Ig-6Tc">
-                                <rect key="frame" x="276" y="7" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Offline"/>
-                                <connections>
-                                    <action selector="modeChange:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1b6-2g-ifA"/>
-                                </connections>
-                            </button>
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <segue destination="zdi-Un-OYk" kind="show" id="wTm-xb-ED4"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="modeButton" destination="GyQ-vh-OuK" id="6jx-sG-VOD"/>
                         <outlet property="reposCollectionView" destination="TAt-7E-B7G" id="FSt-fJ-MBN"/>
                     </connections>
                 </viewController>
