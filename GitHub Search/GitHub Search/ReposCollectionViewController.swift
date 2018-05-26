@@ -67,10 +67,14 @@ class ReposCollectionViewController: UIViewController, UICollectionViewDelegate,
                     self?.manager.saveInCoreDataWith(array: dataModel.items)
                     self?.searchResults.append(contentsOf: dataModel.items)
                     self?.totalRecords = dataModel.total_count
-                    self?.currentPage = (self?.searchResults.count)! / 10
-                    self?.reposCollectionView.reloadData()
+                    if (dataModel.total_count > 0){
+                        self?.currentPage = (self?.searchResults.count)! / 10
+                        self?.reposCollectionView.reloadData()
+                    } else {
+                        self?.showAlertWith(title: "No Results", message: "Please check offline mode to get previously stored results.")
+                    }
                 } else {
-                    self?.showAlertWith(title: "No Results", message: "Please check offline mode to get previously stored results.")
+                    
                 }
             }
         }
