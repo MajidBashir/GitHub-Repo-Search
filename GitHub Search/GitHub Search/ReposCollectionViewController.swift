@@ -11,7 +11,9 @@ import Foundation
 import CoreData
 
 class ReposCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
+    @IBOutlet weak var modeButton: UIBarButtonItem!
     
+    // NSFetch Result Controller will work here
     
     lazy var fetchedhResultController: NSFetchedResultsController<NSFetchRequestResult> = {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: String(describing: Repo.self))
@@ -28,51 +30,68 @@ class ReposCollectionViewController: UIViewController, UICollectionViewDelegate,
     var searchText = String()
     var searchResults :[GitReposModel] =  Array()
     var repoViewModel: GitReposModel!
-    var currentPage = Int()
+    var currentPage = 0
+    var totalRecords = 0
     var isOnline = true
+    var isFetching  = false
     
     let manager = CoredataManager()
     
     @IBOutlet weak var reposCollectionView: UICollectionView!
-   
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.title = "Repositories Found"
+        self.makeRequestForSearchReposWith()
+    }
+    
+    
     fileprivate func makeRequestForSearchReposWith() {
-        GitHubAPI.searchRepositories(name: searchText, currentPage: currentPage) { (success, responseArray, error) in
+        self.isFetching = true
+        GitHubAPI.searchRepositories(name: searchText, currentPage: currentPage) { [weak self] (success, completeModel, error) in
             DispatchQueue.main.async {
-                if((responseArray) != nil) {
-                    self.manager.saveInCoreDataWith(array: responseArray!)
-                    self.searchResults = responseArray!
-                    self.reposCollectionView.reloadData()
+                self?.isFetching = false
+                if let dataModel = completeModel {
+                    self?.manager.saveInCoreDataWith(array: dataModel.items)
+                    self?.searchResults.append(contentsOf: dataModel.items)
+                    self?.totalRecords = dataModel.total_count
+                    self?.currentPage = (self?.searchResults.count)! / 10
+                    self?.reposCollectionView.reloadData()
                 } else {
+                    
                     print("No Items found")
                 }
             }
         }
     }
     
-    @IBAction func modeChange(_ sender: UIButton) {
+    @IBAction func modeChange(_ sender: UIBarButtonItem) {
         isOnline = !isOnline
         let title = isOnline ? "Online" : "Offline"
-        sender.setTitle(title, for: .normal)
+        modeButton.title = title
         do {
             try self.fetchedhResultController.performFetch()
-            print("COUNT FETCHED FIRST: \(self.fetchedhResultController.sections?[0].numberOfObjects)")
+            
+            print("COUNT FETCHED FIRST: \(String(describing: self.fetchedhResultController.sections?[0].numberOfObjects)))")
+            reposCollectionView.reloadData()
+            
         } catch let error  {
             print("ERROR: \(error)")
         }
-        reposCollectionView.reloadData()
+        
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.title = "Repositories Found"
-
-        self.makeRequestForSearchReposWith()
-    }
-
+    // MARK: - UICollectionViewDataSource
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-
-       currentPage = searchResults.count/10
-       return searchResults.count
+        currentPage = searchResults.count/10
+        
+        if isOnline{
+            return searchResults.count
+        }
+        else{
+            return self.fetchedhResultController.sections?[0].numberOfObjects ?? 0
+        }
     }
     
     
@@ -92,10 +111,22 @@ class ReposCollectionViewController: UIViewController, UICollectionViewDelegate,
         
         return cell
     }
+    
+    // MARK: - UICollectionViewDataSource
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath){
+        if indexPath.item >= searchResults.count - 10 && searchResults.count != totalRecords  {
+            if !isFetching{
+                self.makeRequestForSearchReposWith()
+            }
+        }
+    }
 }
 
+
+
 extension ReposCollectionViewController {
-   
+    
     func showAlertWith(title: String, message: String, style: UIAlertControllerStyle = .alert) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
         let action = UIAlertAction(title: title, style: .default) { (action) in
@@ -104,8 +135,10 @@ extension ReposCollectionViewController {
         alertController.addAction(action)
         self.present(alertController, animated: true, completion: nil)
     }
-    
 }
+
+
+// MARK: - NSFetchedResultsControllerDelegate
 
 extension ReposCollectionViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
@@ -113,7 +146,7 @@ extension ReposCollectionViewController: NSFetchedResultsControllerDelegate {
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    
+        
     }
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

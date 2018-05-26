@@ -18,7 +18,7 @@
         </array>
     </customFonts>
     <scenes>
-        <!--Search View Controller-->
+        <!--Seach Git Repositories-->
         <scene sceneID="u9X-Fm-g9c">
             <objects>
                 <viewController id="4Nw-61-fia" customClass="SearchViewController" customModule="GitHub_Search" customModuleProvider="target" sceneMemberID="viewController">
@@ -63,7 +63,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="KQJ-WY-FvX"/>
                     </view>
-                    <navigationItem key="navigationItem" id="HtR-1k-uXT"/>
+                    <navigationItem key="navigationItem" title="Seach Git Repositories" id="HtR-1k-uXT"/>
                     <connections>
                         <outlet property="searchButton" destination="GOU-cD-qVC" id="a4I-ky-pMn"/>
                         <outlet property="searchTextField" destination="2lk-Wq-mMT" id="54I-0d-QpD"/>
@@ -73,7 +73,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="i5M-cX-rhT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="199" y="90"/>
+            <point key="canvasLocation" x="31" y="90"/>
         </scene>
         <!--Repos Collection View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -166,7 +166,8 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="F6J-wI-gsL">
-                        <barButtonItem key="rightBarButtonItem" style="plain" id="GyQ-vh-OuK">
+                        <barButtonItem key="backBarButtonItem" title="Home" id="WMt-Il-Su3"/>
+                        <barButtonItem key="rightBarButtonItem" title="Item" style="plain" id="GyQ-vh-OuK">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="NV6-Ig-6Tc">
                                 <rect key="frame" x="276" y="7" width="83" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -175,18 +176,20 @@
                                     <action selector="modeChange:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1b6-2g-ifA"/>
                                 </connections>
                             </button>
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <segue destination="zdi-Un-OYk" kind="show" id="wTm-xb-ED4"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="modeButton" destination="GyQ-vh-OuK" id="6jx-sG-VOD"/>
                         <outlet property="reposCollectionView" destination="TAt-7E-B7G" id="FSt-fJ-MBN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="912.79999999999995" y="90.404797601199405"/>
+            <point key="canvasLocation" x="686" y="90"/>
         </scene>
         <!--Table View Controller-->
         <scene sceneID="T9d-5u-Z8M">
@@ -214,7 +217,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fEh-O3-1fs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1594" y="30"/>
+            <point key="canvasLocation" x="1409" y="90"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="y5D-SJ-3Fm">

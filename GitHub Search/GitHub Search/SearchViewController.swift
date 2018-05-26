@@ -31,7 +31,32 @@ class SearchViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // passing searchkey to next view controller
         let vc = segue.destination as! ReposCollectionViewController
-        vc.searchText =  searchTextField.text!
+        let trimmedString = searchTextField.text!.trimmingCharacters(in: .whitespaces)
+        vc.searchText = trimmedString
     }
 
+    
+    // check if textfield is empty
+    func validateTextField() -> Bool {
+        // Trim Whitespaces
+        if (searchTextField.text?.trimmingCharacters(in: .whitespaces).isEmpty)! {
+            //Message to Display
+            self.showDismissiveAlertMesssage(message: "Please enter some valid text.")
+            return false
+        }
+        return true
+    }
+
+}
+
+extension UIViewController {
+    
+    // MARK: UIAlertController
+    func showDismissiveAlertMesssage(message: String) {
+        
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle:UIAlertControllerStyle.alert)
+        alertController.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+        present(alertController, animated: true, completion: nil)
+    }
+    
 }
