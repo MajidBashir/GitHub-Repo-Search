@@ -46,7 +46,7 @@ class ReposCollectionViewController: UIViewController, UICollectionViewDelegate,
         self.makeRequestForSearchReposWith()
         
         modeButton = UIButton(type: .system)
-        modeButton.setTitle("Online", for: .normal)
+        modeButton.setTitle("Offline", for: .normal)
         modeButton.titleLabel?.textColor = .blue
         modeButton.frame = CGRect(x: 0, y: 0, width: 100, height: 30)
         modeButton.addTarget(self, action: #selector(self.modeChange(_:)), for: .touchUpInside)
