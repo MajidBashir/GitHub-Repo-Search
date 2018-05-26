@@ -64,8 +64,10 @@ class ReposCollectionViewController: UIViewController, UICollectionViewDelegate,
             DispatchQueue.main.async {
                 self?.isFetching = false
                 if let dataModel = completeModel {
-                    self?.manager.saveInCoreDataWith(array: dataModel.items)
-                    self?.searchResults.append(contentsOf: dataModel.items)
+                    if let items = dataModel.items{
+                        self?.manager.saveInCoreDataWith(array: items)
+                        self?.searchResults.append(contentsOf: items)
+                    }
                     self?.totalRecords = dataModel.total_count
                     if (dataModel.total_count > 0){
                         self?.currentPage = (self?.searchResults.count)! / 10
@@ -139,12 +141,11 @@ class ReposCollectionViewController: UIViewController, UICollectionViewDelegate,
 }
 
 
-
 extension ReposCollectionViewController {
     
     func showAlertWith(title: String, message: String, style: UIAlertControllerStyle = .alert) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
-        let action = UIAlertAction(title: title, style: .default) { (action) in
+        let action = UIAlertAction(title: "Thanks", style: .default) { (action) in
             self.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(action)

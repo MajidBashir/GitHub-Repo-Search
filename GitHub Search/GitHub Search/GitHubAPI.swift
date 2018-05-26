@@ -30,14 +30,8 @@ struct GitHubAPI {
                 if let responseData = data {
                     let decoder = JSONDecoder()
                     let completeModel = try decoder.decode(GitTopLevelModel.self, from: responseData)
-                    
-                    if(completeModel.items.count>0){
                         //Some Data Found
                         completion(true,completeModel,nil)
-                    } else{
-                        //No Data Found
-                        completion(true,nil,nil)
-                    }
                 } else {
                     completion(true,nil,nil)
                 }
